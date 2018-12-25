@@ -61,6 +61,5 @@ typings/
 .vscode
 
 # compiled
-lib/
 **/*.map
 

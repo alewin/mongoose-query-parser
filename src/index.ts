@@ -12,6 +12,7 @@ export interface ParserOptions {
   populateKey?: string;
   sortKey?: string;
   skipKey?: string;
+  PageKey?: string;
   limitKey?: string;
   filterKey?: string;
 }
@@ -19,6 +20,7 @@ export interface ParserOptions {
 export interface QueryOptions {
   filter: Object; // mongodb json query
   sort?: string | Object; // ie.: { field: 1, field2: -1 }
+  page?: number;
   limit?: number;
   skip?: number;
   select?: string | Object; // ie.: { field: 0, field2: 0 }
@@ -45,6 +47,7 @@ export class MongooseQueryParser {
     { operator: 'populate', method: this.castPopulate, defaultKey: 'populate' },
     { operator: 'sort', method: this.castSort, defaultKey: 'sort' },
     { operator: 'skip', method: this.castSkip, defaultKey: 'skip' },
+    { operator: 'page', method: this.castPage, defaultKey: 'page' },
     { operator: 'limit', method: this.castLimit, defaultKey: 'limit' },
     { operator: 'filter', method: this.castFilter, defaultKey: 'filter' },
   ];
@@ -316,6 +319,17 @@ export class MongooseQueryParser {
    */
   private castSkip(skip: string) {
     return Number(skip);
+  }
+
+  /**
+   * cast page query to object like
+   * page=1
+   * =>
+   * {page: 1}
+   * @param page
+   */
+  private castPage(page: string) {
+    return Number(page);
   }
 
   /**
